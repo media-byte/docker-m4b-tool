@@ -28,7 +28,7 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GHCR_PASSWORD }}
       
       - name: Build image and push to Docker Hub and GitHub Container Registry
@@ -37,8 +37,6 @@ jobs:
           # relative path to the place where source code with Dockerfile is located
           context: ./
           # Note: tags has to be all lower-case
-          tags: |
-            ghcr.io/hackmonker/auto-m4b-tool:latest
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
 
