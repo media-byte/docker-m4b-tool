@@ -5,7 +5,6 @@ n=1
 inputfolder="/temp/mp3merge/"
 outputfolder="/temp/untagged/"
 originalfolder="/original/"
-backupfolder="/backup/"
 binfolder="/temp/delete/"
 m4bend=".m4b"
 logend=".log"
@@ -19,22 +18,18 @@ while [ $n -ge 0 ]; do
 	readarray -d '' songfile < <(find "$originalfolder" -type f -iname \*.mp3 -print0)
 	IFS='/' read -r -a parts <<<"${songfile[0]}"
 
-	echo "Making a backup of the whole input/original folder."
-	#copy files to backup destination 
-	cp -Ru "$originalfolder"* $backupfolder
-
 	#Calculating the place bookfolder for mp3s
 	len=${#parts[@]}
 	lenpath=$len-1
 
 	#Moving the first book to the merge directory
-	echo "Moving ${parts[lenpath]} to merge it."
+	echo "Copying ${parts[lenpath]} to merge it."
 	bookpath=${songfile/"${parts[lenpath]}"}
-	mv "$bookpath" $inputfolder
+	ln "$bookpath" $inputfolder
 
 	#Moving the m4b files to the untagged folder as no Merge needed
-	echo "Moving all the m4b books to untagged."
-	find "$originalfolder" -type f \( -iname \*.m4b -o -iname \*.mp4 -o -iname \*.m4a -o -iname \*.ogg \) -exec mv -f "{}" "$outputfolder" \;
+	echo "Copying all the m4b books to untagged."
+	find "$originalfolder" -type f \( -iname \*.m4b -o -iname \*.mp4 -o -iname \*.m4a -o -iname \*.ogg \) -exec ln -f "{}" "$outputfolder" \;
 
 	# clear the folders
 	rm -r "$binfolder"* 2>/dev/null
