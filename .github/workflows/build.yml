@@ -33,7 +33,7 @@ jobs:
         id: metaraw
         uses: docker/metadata-action@v3
         with:
-          images: ghcr.io/media-byte/wantarr
+          images: ghcr.io/media-byte/auto-m4btool
           tags: |
             type=ref,event=tag
             type=ref,event=branch
