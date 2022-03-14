@@ -4,7 +4,6 @@ n=1
 # variable defenition
 inputfolder="/temp/mp3merge/"
 outputfolder="/temp/untagged/"
-originalfolder="/original/"
 binfolder="/temp/delete/"
 m4bend=".m4b"
 logend=".log"
@@ -14,27 +13,9 @@ cd "$inputfolder"
 
 # continue until $n  5
 while [ $n -ge 0 ]; do
-	echo "Read the mp3 files for movement."
-	readarray -d '' songfile < <(find "$originalfolder" -type f -iname \*.mp3 -print0)
-	IFS='/' read -r -a parts <<<"${songfile[0]}"
-
-	#Calculating the place bookfolder for mp3s
-	len=${#parts[@]}
-	lenpath=$len-1
-
-	#Moving the first book to the merge directory
-	echo "Copying ${parts[lenpath]} to merge it."
-	bookpath=${songfile/"${parts[lenpath]}"}
-	ln "$bookpath" $inputfolder
-
-	#Moving the m4b files to the untagged folder as no Merge needed
-	echo "Copying all the m4b books to untagged."
-	find "$originalfolder" -type f \( -iname \*.m4b -o -iname \*.mp4 -o -iname \*.m4a -o -iname \*.ogg \) -exec ln -f "{}" "$outputfolder" \;
 
 	# clear the folders
 	rm -r "$binfolder"* 2>/dev/null
-	find "$originalfolder"* -type f -size -200k -delete
-	find "$originalfolder"* -type d -exec rmdir {} + 2>/dev/null
 
 	if ls -d */ 2>/dev/null; then
 		echo Folder Detected
