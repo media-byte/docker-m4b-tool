@@ -13,8 +13,7 @@ cd "$inputfolder"
 
 # continue until $n  5
 while [ $n -ge 0 ]; do
-
-	# clear the folders
+        # clear the folders
 	rm -r "$binfolder"* 2>/dev/null
 
 	if ls -d */ 2>/dev/null; then
